@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Prome.Viaticos.Server.Api.Users</AssemblyName>
+    <RootNamespace>Prome.Viaticos.Server.Api.Users</RootNamespace>
+    <Version>1.0.0.0</Version>
+    <UserSecretsId>a9420c43-109f-430c-9e07-f050d7538910</UserSecretsId>
+  </PropertyGroup>
+ 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Api.Users' ">
+    <StartAction>Project</StartAction>
+    <ExternalConsole>true</ExternalConsole>
+    <ApplicationURL>https://localhost:5001;http://localhost:5000</ApplicationURL>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Bootstrapper\Bootstrapper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.3.0" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/csscomb" /></VisualStudio></ProjectExtensions>
+
+</Project>

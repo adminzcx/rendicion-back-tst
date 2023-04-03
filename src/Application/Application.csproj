@@ -1,0 +1,119 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>Prome.Viaticos.Server.Application</RootNamespace>
+    <AssemblyName>Prome.Viaticos.Server.Application</AssemblyName>
+    <Version>1.0.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="AdminAggregate\ExpenseStops\NewFolder\**" />
+    <EmbeddedResource Remove="AdminAggregate\ExpenseStops\NewFolder\**" />
+    <None Remove="AdminAggregate\ExpenseStops\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ardalis.GuardClauses" Version="1.4.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.16.0" />
+    <PackageReference Include="FluentValidation" Version="8.6.2" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CashFormAggregate\CashFormMoney\Commands\" />
+    <Folder Include="ExpenseAggregate\Campaign\Commands\" />
+    <Folder Include="ExpenseAggregate\Campaign\Commands\CreateCampaign\" />
+    <Folder Include="ExpenseAggregate\Campaign\Commands\DeleteCampaign\" />
+    <Folder Include="ExpenseAggregate\Campaign\Commands\UpdateCampaign\" />
+    <Folder Include="ExpenseFormAggregate\ExpenseFormComment\Dtos\" />
+    <Folder Include="ExpenseFormAggregate\ExpenseFormComment\Specifications\" />
+    <Folder Include="ExpenseFormAggregate\ExpenseFormComment\Commands\" />
+    <Folder Include="ExpenseFormAggregate\ExpenseFormComment\Commands\CreateExpenseFormComment\" />
+    <Folder Include="ExpenseFormAggregate\ExpenseFormComment\Queries\GetAllExpenseFormCommentByFormId\" />
+    <Folder Include="ExpenseFormAggregate\ExpenseForm\Commands\PathExpenseFormAmount\" />
+	<Folder Include="LunchAggregate\Restaurant\Commands\CreateRestaurant\" />
+    <Folder Include="LunchAggregate\Lunch\Queries\" />
+    <Folder Include="LunchFormAggregate\LunchFormComment\" />
+    <Folder Include="LunchFormAggregate\LunchFormComment\Commands\" />
+    <Folder Include="LunchFormAggregate\LunchFormComment\Dtos\" />
+    <Folder Include="LunchFormAggregate\LunchFormComment\Queries\" />
+    <Folder Include="LunchFormAggregate\LunchFormComment\Specifications\" />
+    <Folder Include="LunchFormAggregate\LunchFormComment\Commands\CreateLunchFormComment\" />
+    <Folder Include="LunchFormAggregate\LunchFormComment\Queries\GetAllLunchFormCommentByFormId\" />
+    <Folder Include="LunchFormAggregate\LunchFormAudit\" />
+    <Folder Include="LunchFormAggregate\LunchFormAudit\Dtos\" />
+    <Folder Include="LunchFormAggregate\LunchFormAudit\Queries\" />
+    <Folder Include="LunchFormAggregate\LunchFormAudit\Specification\" />
+    <Folder Include="LunchFormAggregate\LunchFormAudit\Queries\GetAllLunchFormAuditByLunchFormId\" />
+    <Folder Include="AdminAggregate\LunchStops\Commands\" />
+    <Folder Include="AdminAggregate\LunchStops\Dtos\" />
+    <Folder Include="AdminAggregate\LunchStops\Queries\" />
+    <Folder Include="AdminAggregate\LunchStops\Commands\CreateLunchStops\" />
+    <Folder Include="AdminAggregate\LunchStops\Commands\DeleteLunchStops\" />
+    <Folder Include="AdminAggregate\LunchStops\Commands\UpdateLunchStops\" />
+    <Folder Include="AdminAggregate\LunchStops\Queries\GetAllLunchStops\" />
+    <Folder Include="AdminAggregate\LunchStops\Queries\GetLunchStop\" />
+    <Folder Include="UserAggregate\Users\Queries\GetUsersByExcludeBranchUser\" />
+    <Folder Include="CashFormAggregate\CashForm\Commands\PathCashFormStatus\" />
+    <Folder Include="CashFormAggregate\CashFormAudit\" />
+    <Folder Include="CashFormAggregate\CashFormAudit\Dtos\" />
+    <Folder Include="CashFormAggregate\CashFormAudit\Queries\" />
+    <Folder Include="CashFormAggregate\CashFormAudit\Specification\" />
+    <Folder Include="CashFormAggregate\CashFormAudit\Queries\GetAllCashFormAuditByCashFormId\" />
+    <Folder Include="CashFormAggregate\CashFormComment\" />
+    <Folder Include="CashFormAggregate\CashFormComment\Commands\" />
+    <Folder Include="CashFormAggregate\CashFormComment\Queries\" />
+    <Folder Include="CashFormAggregate\CashFormComment\Dtos\" />
+    <Folder Include="CashFormAggregate\CashFormComment\Specifications\" />
+    <Folder Include="CashFormAggregate\CashFormComment\Commands\CreateCashFormComment\" />
+    <Folder Include="CashFormAggregate\CashFormComment\Queries\GetAllCashFormCommentByFormId\" />
+    <Folder Include="CashFormAggregate\CashForm\Queries\GetDashboardCashForm\" />
+    <Folder Include="CashFormAggregate\CashForm\Queries\GetCashFormByDate\" />
+    <Folder Include="CashFormAggregate\CashFormAmount\" />
+    <Folder Include="CashFormAggregate\CashFormAmount\Commands\" />
+    <Folder Include="CashFormAggregate\CashFormAmount\Dtos\" />
+    <Folder Include="CashFormAggregate\CashFormAmount\Commands\CreateCashFormAmount\" />
+    <Folder Include="CashFormAggregate\CashFormAmount\Queries\" />
+    <Folder Include="CashFormAggregate\CashFormAmount\Queries\GetAllCashFormAmount\" />
+    <Folder Include="CashFormAggregate\CashFormAmount\Specifications\" />
+    <Folder Include="CashFormAggregate\CashFormAmount\Commands\UpdateCashFormAmount\" />
+    <Folder Include="CashFormAggregate\CashFormAmount\Commands\DeleteCashFormAmount\" />
+    <Folder Include="CashFormAggregate\CashFormAmount\Queries\GetCashFormAmount\" />
+    <Folder Include="CashFormAggregate\CashFormAmount\Queries\GetCashFormAmountByBranch\" />
+    <Folder Include="CashFormAggregate\CashFormCapAmount\" />
+    <Folder Include="CashFormAggregate\CashFormCapAmount\Dtos\" />
+    <Folder Include="CashFormAggregate\CashFormCapAmount\Commands\" />
+    <Folder Include="CashFormAggregate\CashFormCapAmount\Queries\" />
+    <Folder Include="CashFormAggregate\CashFormCapAmount\Specifications\" />
+    <Folder Include="CashFormAggregate\CashFormCapAmount\Commands\CreateCashFormCapAmount\" />
+    <Folder Include="CashFormAggregate\CashFormCapAmount\Queries\GetAllCashFormCapAmount\" />
+    <Folder Include="CashFormAggregate\CashFormCapAmount\Commands\DeleteCashFormCapAmount\" />
+    <Folder Include="CashFormAggregate\CashFormCapAmount\Commands\UpdateCashFormCapAmount\" />
+    <Folder Include="CashFormAggregate\CashFormCapAmount\Queries\GetCashFormCapAmount\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="AdminAggregate\KmPriceConfigurations\Commands\CreateKmPriceConfiguration\CreateKmPriceConfigurationCommand.cs">
+      <Generator>DtsGenerator</Generator>
+      <LastGenOutput>CreateKmPriceConfigurationCommand.cs.d.ts</LastGenOutput>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AdminAggregate\KmPriceConfigurations\Commands\CreateKmPriceConfiguration\CreateKmPriceConfigurationCommand.cs.d.ts">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CreateKmPriceConfigurationCommand.cs</DependentUpon>
+    </None>
+  </ItemGroup>
+</Project>
