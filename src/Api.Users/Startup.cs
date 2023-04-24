@@ -35,18 +35,18 @@ namespace Prome.Viaticos.Server.Api.Users
             services.AddControllers();
             services.AddSwaggerDocument(configure =>
             {
-                //configure.AddSecurity("Basic", new OpenApiSecurityScheme
-                //{
-                //    Type = OpenApiSecuritySchemeType.Basic,
-                //    Name = "Basic",
-                //    In = OpenApiSecurityApiKeyLocation.Header
-                //});
+                configure.AddSecurity("Basic", new OpenApiSecurityScheme
+                {
+                    Type = OpenApiSecuritySchemeType.Basic,
+                    Name = "Basic",
+                    In = OpenApiSecurityApiKeyLocation.Header
+                });
 
-                //configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Basic"));
+                configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("Basic"));
             });
 
-            //services.AddAuthentication("BasicAuthentication")
-            //    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -80,8 +80,8 @@ namespace Prome.Viaticos.Server.Api.Users
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

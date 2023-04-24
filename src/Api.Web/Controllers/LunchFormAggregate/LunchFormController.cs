@@ -13,42 +13,41 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.LunchFormAggregate
     {
 
         [HttpPost]
-        [Route("{user}")]
         [DisableRequestSizeLimit]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(string user, CreateLunchFormCommand createLunchFormCommand)
+        public async Task<IActionResult> Post(CreateLunchFormCommand createLunchFormCommand)
         {
-            createLunchFormCommand.Email = this.GetUserAuthorized(user);
+            createLunchFormCommand.Email = this.GetUserAuthorized();
             await Mediator.Send(createLunchFormCommand);
             return Ok();
         }
 
-        [HttpPut("{lunchFormId}/{user}")]
+        [HttpPut("{lunchFormId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Patch(int lunchFormId, string user, PatchLunchFormCommand pathLunchFormCommand)
+        public async Task<IActionResult> Patch(int lunchFormId, PatchLunchFormCommand pathLunchFormCommand)
         {
             pathLunchFormCommand.Id = lunchFormId;
-            pathLunchFormCommand.Email = this.GetUserAuthorized(user);
+            pathLunchFormCommand.Email = this.GetUserAuthorized();
             await Mediator.Send(pathLunchFormCommand);
             return Ok();
         }
 
         [HttpGet]
-        [Route("GetByStatus/{StatusId}/{user}")]
+        [Route("GetByStatus/{StatusId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByStatus(int statusId, string user)
+        public async Task<IActionResult> GetByStatus(int statusId)
         {
             var query = new GetAllByStatusAndUserQuery
             {
                 StatusId = statusId
                 ,
-                Email = this.GetUserAuthorized(user)
+                Email = this.GetUserAuthorized()
             };
             var result = await Mediator.Send(query);
 
@@ -68,14 +67,14 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.LunchFormAggregate
         }
 
         [HttpPatch]
-        [Route("Status/{lunchFormId}/{user}")]
+        [Route("Status/{lunchFormId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PatchStatus(int lunchFormId, string user, PathLunchFormStatusCommand pathLunchFormStatusCommand)
+        public async Task<IActionResult> PatchStatus(int lunchFormId, PathLunchFormStatusCommand pathLunchFormStatusCommand)
         {
             pathLunchFormStatusCommand.Id = lunchFormId;
-            pathLunchFormStatusCommand.Email = this.GetUserAuthorized(user);
+            pathLunchFormStatusCommand.Email = this.GetUserAuthorized();
             await Mediator.Send(pathLunchFormStatusCommand);
 
             return Ok();

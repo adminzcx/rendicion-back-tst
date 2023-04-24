@@ -2,6 +2,8 @@
 using MediatR;
 using Prome.Viaticos.Server.Application._Common.Handlers;
 using Prome.Viaticos.Server.Application.Common.Interfaces;
+using Prome.Viaticos.Server.Application.UserAggregate.Users.Guards;
+using Prome.Viaticos.Server.Application.UserAggregate.Users.Specifications;
 using Prome.Viaticos.Server.Domain.Entities.UserAggregate;
 using System.Linq;
 using System.Threading;
@@ -19,7 +21,13 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Commands.UpdateU
 
         public async override Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var entity = await FindById<User>(request.Id);
+            var entities = await _unitOfWork
+                .Repository<User>()
+                .ListAsync(new ByEmployeeRecordSpecification(request.EmployeeRecord));
+            Guard.Against.Null(entities, nameof(request.EmployeeRecord));
+            Guard.Against.UniqueUser(entities);
+
+            var entity = entities.First();
 
             var branchFrom = await FindByCode<Branch>(request.BranchFrom);
             Guard.Against.Null(branchFrom, nameof(request.BranchFrom));
@@ -34,8 +42,6 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Commands.UpdateU
             entity.Branch = branchFrom;
             entity.Position = position;
             entity.Cuit = request.Cuit;
-            entity.TarjetaYPF = request.TarjetaYPF;
-            entity.YPFRuta = request.YPFRuta;
             entity.Clean();
 
             if (request.Category != null)

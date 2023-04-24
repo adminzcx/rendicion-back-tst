@@ -27,7 +27,7 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Queries.GetUsers
 
             var list = await _unitOfWork
                 .Repository<User>()
-                .ListAsync(new ByEmployeeExcludedBranchSpecification(currentUser.BranchFrom.Id));
+                .ListAsync(new ByEmployeeExcludedBranchSpecification(currentUser.Branch.Id));
 
             return Map(list);
         }

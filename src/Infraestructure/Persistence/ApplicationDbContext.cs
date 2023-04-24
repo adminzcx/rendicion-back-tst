@@ -7,13 +7,9 @@ using Prome.Viaticos.Server.Domain.Entities.CashFormAggregate;
 using Prome.Viaticos.Server.Domain.Entities.ExpenseAggregate;
 using Prome.Viaticos.Server.Domain.Entities.ExpenseFormAggregate;
 using Prome.Viaticos.Server.Domain.Entities.UserAggregate;
-using Prome.Viaticos.Server.Domain.Entities.YPFRutaAggregate;
-using Prome.Viaticos.Server.Domain.Entities.CuentaCorrienteAggregate;
-using Prome.Viaticos.Server.Domain.Entities.LunchAggregate;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Prome.Viaticos.Server.Domain.Entities.DatosMillanAggregate;
 
 namespace Prome.Viaticos.Server.Infraestructure.Persistence
 {
@@ -111,15 +107,6 @@ namespace Prome.Viaticos.Server.Infraestructure.Persistence
         public DbSet<CashFormAmount> CashFormAmounts { get; set; }
 
         public DbSet<CashFormCapAmount> CashFormCapAmounts { get; set; }
-
-        public DbSet<Datos_YPF> Datos_YPF { get; set; }
-
-        public DbSet<CuentasCorrientes> CuentasCorrientes { get; set; }
-
-        public DbSet<Invoice> InvoiceTypes { get; set; }
-
-        public DbSet<DatosMillan> DatosMillan { get; set; }
-
         #endregion
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())

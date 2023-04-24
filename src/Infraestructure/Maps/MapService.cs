@@ -3,10 +3,8 @@ using GoogleApi;
 using GoogleApi.Entities.Common;
 using GoogleApi.Entities.Maps.Directions.Request;
 using GoogleApi.Entities.Maps.StaticMaps.Request;
-using Newtonsoft.Json;
 using Prome.Viaticos.Server.Application.Common.Interfaces;
 using Prome.Viaticos.Server.Domain.ValueObjects.ExpenseAggregate;
-using Prome.Viaticos.Server.Infraestructure.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -47,6 +45,7 @@ namespace Prome.Viaticos.Server.Infraestructure.Maps
 
         public Geolocation GetCurrentPosition(Map request)
         {
+
             Geolocation geolocationResult = new Geolocation
             {
                 SourceLatitude = request.SourceLatitude,
@@ -74,14 +73,7 @@ namespace Prome.Viaticos.Server.Infraestructure.Maps
                 Alternatives = true
             };
 
-            AppStaticLogInfraestucture.Information("Culture Info - NativeName: " + CultureInfo.InstalledUICulture.NativeName);
-            AppStaticLogInfraestucture.Information("Culture Info - Name: " + CultureInfo.InstalledUICulture.Name);
-            AppStaticLogInfraestucture.Information("Culture Info - DisplayName: " + CultureInfo.InstalledUICulture.DisplayName);
-
-            AppStaticLogInfraestucture.Information("googleRequest: " + JsonConvert.SerializeObject(googleRequest));
-
             var result = GoogleMaps.Directions.Query(googleRequest);
-
             if (!result.Routes.Any()) return null;
             var overviewPath = result.Routes.First().OverviewPath;
 

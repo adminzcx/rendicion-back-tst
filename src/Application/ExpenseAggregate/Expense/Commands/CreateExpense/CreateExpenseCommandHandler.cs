@@ -14,7 +14,6 @@ using Prome.Viaticos.Server.Application.ExpenseAggregate.Guards;
 using Prome.Viaticos.Server.Application.UserAggregate.Users.Guards;
 using Prome.Viaticos.Server.Application.UserAggregate.Users.Specifications;
 using Prome.Viaticos.Server.Domain.Entities.AdminAggregate;
-using Prome.Viaticos.Server.Domain.Entities.CuentaCorrienteAggregate;
 using Prome.Viaticos.Server.Domain.Entities.ExpenseAggregate;
 using Prome.Viaticos.Server.Domain.Entities.ExpenseFormAggregate;
 using Prome.Viaticos.Server.Domain.Entities.UserAggregate;
@@ -54,6 +53,7 @@ namespace Prome.Viaticos.Server.Application.ExpenseAggregate.Expense.Commands.Cr
 
         public override async Task<Unit> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
         {
+
             var currentUser = await this.GetCurrentUserAsync(request.Email);
             var reason = await this.GetReasonAsync(request.ReasonId);
             var concept = await this.GetConceptAsync(request.ConceptId);
@@ -76,6 +76,8 @@ namespace Prome.Viaticos.Server.Application.ExpenseAggregate.Expense.Commands.Cr
             var map = await this.GetCurrentPositionAsync(request, entity.Source, currentUser.Id);
             if (map != null)
             {
+                entity.Latitude = map.Latitude;
+                entity.Longitude = map.Longitude;
                 entity.SourceLatitude = map.SourceLatitude;
                 entity.SourceLongitude = map.SourceLongitude;
                 entity.KM = map.Km;
@@ -92,30 +94,7 @@ namespace Prome.Viaticos.Server.Application.ExpenseAggregate.Expense.Commands.Cr
             entity.GenerateAdvices(expenseStopList, expenseList);
             #endregion
 
-            if (request.YPFRuta && request.ReasonId != 1 &&
-                (request.ConceptId == 12 || request.ConceptId == 13 || request.ConceptId == 18 || request.ConceptId == 19
-                 || request.ConceptId == 24 || request.ConceptId == 25 || request.ConceptId == 30 || request.ConceptId == 31
-                  || request.ConceptId == 36 || request.ConceptId == 37 || request.ConceptId == 42 || request.ConceptId == 43
-                   || request.ConceptId == 48 || request.ConceptId == 49 || request.ConceptId == 54 || request.ConceptId == 55))
-            {
-
-                var ctaCte = new CuentasCorrientes
-                {
-                    Fecha = entity.ExpenseDate,
-                    Legajo = Convert.ToInt32(currentUser.EmployeeRecord),
-                    Monto = (decimal)entity.Amount,
-                    Observaciones = entity.Description,
-                    Reason = entity.Reason,
-                    Km = entity.KM
-                };
-
-                await _unitOfWork.Repository<CuentasCorrientes>().AddAsync(ctaCte);
-            }
-            else
-            {
-                await _unitOfWork.Repository<Domain.Entities.ExpenseAggregate.Expense>().AddAsync(entity);
-            }
-
+            await _unitOfWork.Repository<Domain.Entities.ExpenseAggregate.Expense>().AddAsync(entity);
             await _unitOfWork.CommitAsync();
 
             return Unit.Value;
@@ -262,10 +241,10 @@ namespace Prome.Viaticos.Server.Application.ExpenseAggregate.Expense.Commands.Cr
         }
         private async Task<Geolocation> GetCurrentPositionAsync(CreateExpenseCommand request, Domain.Entities.ExpenseAggregate.Source source, long userId)
         {
-            if (source == null) { return null; }
 
             if (request.Device.ToLower() == nameof(ExpenseSourceEnum.Web).ToLower() && string.IsNullOrEmpty(request.GoogleURL)) return null;
             if (request.Device == nameof(ExpenseSourceEnum.Mobile) && (request.Latitude == 0 || request.Latitude == 0)) return null;
+
 
             string path = _configuration["MySettings:GoogleMapPath"];
             ExpenseFolderGuard.PathFolderValid(path);
@@ -273,75 +252,32 @@ namespace Prome.Viaticos.Server.Application.ExpenseAggregate.Expense.Commands.Cr
             Map model = new Map();
             model.Token = _configuration["MySettings:TokenGoogleMap"];
             model.Url = request.GoogleURL;
-            model.Latitude = Convert.ToDouble((request.Latitude == null) ? request.GoogleURL.Split('@')[1].Split(',')[0].Replace('.', ',') : "0");
-            model.Longitude = Convert.ToDouble((request.Longitude == null) ? request.GoogleURL.Split('@')[1].Split(',')[1].Replace('.', ',') : "0");
+            model.Latitude = Convert.ToDouble(request.Latitude);
+            model.Longitude = Convert.ToDouble(request.Longitude);
 
-            var dataUser = await this.GetCurrentUserAsync(request.Email);
 
             if (source.Id == (int)SourceEnum.Sucursal)
             {
-                model.SourceLatitude = Convert.ToDouble((CultureInfo.InstalledUICulture.Name == "en-US") ? dataUser.Branch.Latitud.Replace(',', '.') : dataUser.Branch.Latitud);
-                model.SourceLongitude = Convert.ToDouble((CultureInfo.InstalledUICulture.Name == "en-US") ? dataUser.Branch.Longitud.Replace(',', '.') : dataUser.Branch.Longitud);
+                model.SourceLatitude = Convert.ToDouble(_configuration["MySettings:BranchLatitude"], CultureInfo.InvariantCulture);
+                model.SourceLongitude = Convert.ToDouble(_configuration["MySettings:BranchLongitude"], CultureInfo.InvariantCulture);
             }
             if (source.Id == (int)SourceEnum.VisitaAnterior)
             {
-                var lastVisit = await this.GetLatestVisit(userId);
+                var latestVisit = await this.GetLatestVisit(userId);
 
-                if (lastVisit != null)
+                if (latestVisit != null)
                 {
-                    model.SourceLatitude = (CultureInfo.InstalledUICulture.Name == "en-US")
-                        ? Convert.ToDouble(lastVisit.Latitude.ToString().Replace(',', '.'))
-                        : Convert.ToDouble(lastVisit.Latitude);
-                    model.SourceLongitude = (CultureInfo.InstalledUICulture.Name == "en-US")
-                        ? Convert.ToDouble(lastVisit.Longitude.ToString().Replace(',', '.'))
-                        : Convert.ToDouble(lastVisit.Longitude);
+                    model.SourceLatitude = Convert.ToDouble(latestVisit.Latitude);
+                    model.SourceLongitude = Convert.ToDouble(latestVisit.Longitude);
                 }
                 else
                 {
-                    model.SourceLatitude = Convert.ToDouble((CultureInfo.InstalledUICulture.Name == "en-US") ? dataUser.Branch.Latitud.Replace(',', '.') : dataUser.Branch.Latitud);
-                    model.SourceLongitude = Convert.ToDouble((CultureInfo.InstalledUICulture.Name == "en-US") ? dataUser.Branch.Longitud.Replace(',', '.') : dataUser.Branch.Longitud);
+                    model.SourceLatitude = Convert.ToDouble(_configuration["MySettings:BranchLatitude"], CultureInfo.InvariantCulture);
+                    model.SourceLongitude = Convert.ToDouble(_configuration["MySettings:BranchLongitude"], CultureInfo.InvariantCulture);
                 }
             }
 
-            var currentPosition = _googleMapService.GetCurrentPosition(model);
-
-            var listVisits = await this.GetVisits(userId);
-
-            if (listVisits != null)
-            {
-                foreach (var visit in listVisits)
-                {
-                    if (source.Id == (int)SourceEnum.VisitaAnterior)
-                    {
-                        currentPosition.Km += (decimal)visit.KM;
-
-                        model.SourceLatitude = Convert.ToDouble(visit.Latitude);
-                        model.SourceLongitude = Convert.ToDouble(visit.Longitude);
-
-                        model.Latitude = Convert.ToDouble(dataUser.Branch.Latitud);
-                        model.Longitude = Convert.ToDouble(dataUser.Branch.Longitud);
-
-                        var positionRemove = _googleMapService.GetCurrentPosition(model);
-
-                        currentPosition.Km -= positionRemove.Km;
-                    }
-                    else { break; }
-
-                    if (visit.Source.Id == (int)SourceEnum.Sucursal) { currentPosition.Km += (decimal)visit.KM; break; }
-                }
-            }
-
-            model.SourceLatitude = Convert.ToDouble((request.Latitude == null) ? request.GoogleURL.Split('@')[1].Split(',')[0].Replace('.', ',') : "0");
-            model.SourceLongitude = Convert.ToDouble((request.Longitude == null) ? request.GoogleURL.Split('@')[1].Split(',')[1].Replace('.', ',') : "0");
-
-            model.Latitude = Convert.ToDouble((CultureInfo.InstalledUICulture.Name == "en-US") ? dataUser.Branch.Latitud.Replace(',', '.') : dataUser.Branch.Latitud);
-            model.Longitude = Convert.ToDouble((CultureInfo.InstalledUICulture.Name == "en-US") ? dataUser.Branch.Longitud.Replace(',', '.') : dataUser.Branch.Longitud);
-
-            var positionToBranch = _googleMapService.GetCurrentPosition(model);
-
-            currentPosition.Km += positionToBranch.Km;
-
-            return currentPosition;
+            return _googleMapService.GetCurrentPosition(model);
         }
 
         private async Task<Domain.Entities.ExpenseAggregate.Expense> GetLatestVisit(long userId)
@@ -350,14 +286,6 @@ namespace Prome.Viaticos.Server.Application.ExpenseAggregate.Expense.Commands.Cr
                                  .Repository<Domain.Entities.ExpenseAggregate.Expense>()
                                  .ListAsync(new ExpenseByBeforeVisitSpecification(userId));
             return visits.Any() ? visits.First() : null;
-        }
-
-        private async Task<List<Domain.Entities.ExpenseAggregate.Expense>> GetVisits(long userId)
-        {
-            var visits = await _unitOfWork
-                                 .Repository<Domain.Entities.ExpenseAggregate.Expense>()
-                                 .ListAsync(new ExpenseByBeforeVisitSpecification(userId));
-            return visits.Any() ? (List<Domain.Entities.ExpenseAggregate.Expense>)visits : null;
         }
     }
 }

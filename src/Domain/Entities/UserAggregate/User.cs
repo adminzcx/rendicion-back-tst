@@ -20,9 +20,7 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
            bool isAdministrator,
            Branch branchFrom,
            Position position,
-           string cuit,
-           Int64? tarjetaYPF,
-           bool? ypfRuta)
+           string cuit)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -32,8 +30,6 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
             BranchFrom = branchFrom;
             Position = position;
             Cuit = cuit;
-            TarjetaYPF = tarjetaYPF;
-            YPFRuta = ypfRuta;
         }
 
         public string FirstName { get; set; }
@@ -47,10 +43,6 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
         public string EmployeeRecord { get; private set; }
 
         public bool IsAdministrator { get; set; }
-
-        public Int64? TarjetaYPF { get; set; }
-
-        public bool? YPFRuta { get; set; }
 
         public virtual Branch BranchFrom { get; set; }
 
@@ -75,8 +67,6 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
         public ICollection<PositionTypeEnum> IndirectsPosition => this.Position.GetIndirectPosition();
 
         public ICollection<PositionTypeEnum> ParesLevelPosition => this.Position.GetParesLevePosition();
-
-        public ICollection<PositionTypeEnum> RevisaPosition => this.Position.GetRevisaPosition();
 
         public string Name => this.FirstName + " " + this.LastName;
 
@@ -106,6 +96,7 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.rinde_viaticos));
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.rinde_almuerzos));
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.rinde_caja_chica));
+
                     break;
 
                 case "JZ":
@@ -126,15 +117,13 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.administra_viaticos));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.revisa_viaticos));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.exporta_viaticos));
-                        result.Add(Enum.GetName(typeof(RolEnum), RolEnum.autoriza_viaticos));
-
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.administra_almuerzos));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.revisa_almuerzos));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.importa_almuerzos));
-
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.administra_caja_chica));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.revisa_caja_chica));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.exporta_caja_chica));
+
                     }
                     break;
 
@@ -147,11 +136,9 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.administra_viaticos));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.revisa_viaticos));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.exporta_viaticos));
-
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.administra_almuerzos));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.revisa_almuerzos));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.importa_almuerzos));
-
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.revisa_caja_chica));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.administra_caja_chica));
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.exporta_caja_chica));
@@ -166,9 +153,6 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
                     if (this.Management.HasSpecialPermissions)
                     {
                         result.Add(Enum.GetName(typeof(RolEnum), RolEnum.aprueba_viaticos));
-                        result.Add(Enum.GetName(typeof(RolEnum), RolEnum.revisa_viaticos));
-                        result.Add(Enum.GetName(typeof(RolEnum), RolEnum.administra_almuerzos));
-                        result.Add(Enum.GetName(typeof(RolEnum), RolEnum.revisa_almuerzos));
                     }
                     break;
 
@@ -179,13 +163,11 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.administra_viaticos));
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.exporta_viaticos));
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.pares_autoriza_viaticos));
-                    result.Add(Enum.GetName(typeof(RolEnum), RolEnum.aprueba_viaticos));
-
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.rinde_almuerzos));
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.revisa_almuerzos));
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.administra_almuerzos));
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.importa_almuerzos));
-
+                    result.Add(Enum.GetName(typeof(RolEnum), RolEnum.aprueba_viaticos));
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.rinde_caja_chica));
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.exporta_caja_chica));
                     result.Add(Enum.GetName(typeof(RolEnum), RolEnum.administra_caja_chica));

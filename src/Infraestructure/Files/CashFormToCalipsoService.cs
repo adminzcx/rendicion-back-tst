@@ -92,7 +92,7 @@ namespace Prome.Viaticos.Server.Infraestructure.Files
             }
 
 
-            var result = file.DirectoryName + "\\" + cashForm.CashFormNumber.ToString() + ".xls";
+            var result = file.DirectoryName + "//" + cashForm.CashFormNumber.ToString() + ".xls";
             var fileResult = new FileInfo(result);
             package.SaveAs(fileResult);
             return File.ReadAllBytes(result);

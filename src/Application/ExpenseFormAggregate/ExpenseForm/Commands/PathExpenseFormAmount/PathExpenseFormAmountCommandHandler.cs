@@ -158,8 +158,7 @@ namespace Prome.Viaticos.Server.Application.ExpenseFormAggregate.ExpenseForm.Com
         private async Task<decimal?> SumExpenses(int expenseFormId)
         {
             var expensetoSum = await this.GetAllExpenseByExpenseForm(expenseFormId);
-            //mchuquimia no debería sumar TotalAmount y MobilityAmount
-            return expensetoSum.Sum(x => x.Amount);// + expensetoSum.Sum(x => x.TotalAmount) + expensetoSum.Sum(x => x.MobilityAmount);
+            return expensetoSum.Sum(x => x.Amount) + expensetoSum.Sum(x => x.TotalAmount) + expensetoSum.Sum(x => x.MobilityAmount);
         }
         #endregion
 

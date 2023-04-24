@@ -22,13 +22,13 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.LunchFormAggregate
         }
 
         [HttpPost]
-        [Route("Create/{user}")]
+        [Route("Create")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(string user, CreateLunchFormCommentCommand createLunchFormCommentCommand)
+        public async Task<IActionResult> Post(CreateLunchFormCommentCommand createLunchFormCommentCommand)
         {
-            createLunchFormCommentCommand.Email = this.GetUserAuthorized(user);
+            createLunchFormCommentCommand.Email = this.GetUserAuthorized();
             await Mediator.Send(createLunchFormCommentCommand);
 
             return Ok();

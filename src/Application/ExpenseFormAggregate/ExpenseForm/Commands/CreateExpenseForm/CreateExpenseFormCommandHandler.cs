@@ -144,8 +144,7 @@ namespace Prome.Viaticos.Server.Application.ExpenseFormAggregate.ExpenseForm.Com
 
         private decimal? SumExpenseToRender(IReadOnlyCollection<Expense> expenseToRender)
         {
-            //mchuquimia no debería sumar TotalAmount y MobilityAmount
-            return expenseToRender.Sum(x => x.Amount);// + expenseToRender.Sum(x => x.TotalAmount) + expenseToRender.Sum(x => x.MobilityAmount);
+            return expenseToRender.Sum(x => x.Amount) + expenseToRender.Sum(x => x.TotalAmount) + expenseToRender.Sum(x => x.MobilityAmount);
         }
 
 

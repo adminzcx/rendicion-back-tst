@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using System;
-
 namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Commands.CreateUser
 {
 
@@ -26,9 +24,5 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Commands.CreateU
         public string Position { get; set; }
 
         public string Cuit { get; set; }
-
-        public Int64? TarjetaYPF { get; set; }
-
-        public bool? YPFRuta { get; set; }
     }
 }

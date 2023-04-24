@@ -83,7 +83,7 @@ namespace Prome.Viaticos.Server.Application.ExpenseAggregate.Expense.Commands.Up
             }
             entity.ExpenseForm = await this.GetExpenseFormAsync(request.ExpenseFormId);
 
-            var map = this.GetCurrentPosition(request, entity.Source, entity.SourceLatitude, entity.SourceLongitude);
+            var map = await this.GetCurrentPositionAsync(request, entity.Source, entity.SourceLatitude, entity.SourceLongitude);
             if (map != null)
             {
                 entity.Latitude = map.Latitude;
@@ -244,7 +244,7 @@ namespace Prome.Viaticos.Server.Application.ExpenseAggregate.Expense.Commands.Up
             }
             else return string.Empty;
         }
-        private Geolocation GetCurrentPosition(UpdateExpenseCommand request, Domain.Entities.ExpenseAggregate.Source source, double? latitude, double? longitude)
+        private async Task<Geolocation> GetCurrentPositionAsync(UpdateExpenseCommand request, Domain.Entities.ExpenseAggregate.Source source, double? latitude, double? longitude)
         {
 
             if (request.Device.ToLower() == nameof(ExpenseSourceEnum.Web).ToLower() && string.IsNullOrEmpty(request.GoogleURL)) return null;

@@ -7,8 +7,7 @@ namespace Prome.Viaticos.Server.Application.ExpenseFormAggregate.ExpenseForm.Spe
     public sealed class ExpenseFormByStatusSpecification : BaseSpecification<Domain.Entities.ExpenseFormAggregate.ExpenseForm>
     {
         public ExpenseFormByStatusSpecification(long userId, int statusId)
-            : base(x => x.IsDeleted != true && x.Status.Id == statusId && x.User.Id == userId
-            )
+            : base(x => x.IsDeleted != true && x.Status.Id == statusId && x.User.Id == userId)
         {
             AddInclude(t => t.Status);
             AddIncludes(t => t.Include(o => o.User).ThenInclude(i => i.Position));

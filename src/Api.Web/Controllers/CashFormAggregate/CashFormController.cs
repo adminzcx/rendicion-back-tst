@@ -31,27 +31,26 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.CashFormAggregate
         }
 
         [HttpPost]
-        [Route("{user}")]
         [DisableRequestSizeLimit]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(string user, CreateCashFormCommand createCashFormCommand)
+        public async Task<IActionResult> Post(CreateCashFormCommand createCashFormCommand)
         {
-            createCashFormCommand.Email = this.GetUserAuthorized(user);
+            createCashFormCommand.Email = this.GetUserAuthorized();
             await Mediator.Send(createCashFormCommand);
             return Ok();
         }
 
         [HttpPatch]
-        [Route("Status/{cashFormId}/{user}")]
+        [Route("Status/{cashFormId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PatchStatus(int cashFormId, string user, PathCashFormStatusCommand pathCashFormStatusCommand)
+        public async Task<IActionResult> PatchStatus(int cashFormId, PathCashFormStatusCommand pathCashFormStatusCommand)
         {
             pathCashFormStatusCommand.Id = cashFormId;
-            pathCashFormStatusCommand.Email = this.GetUserAuthorized(user);
+            pathCashFormStatusCommand.Email = this.GetUserAuthorized();
             await Mediator.Send(pathCashFormStatusCommand);
 
             return Ok();
@@ -61,39 +60,39 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.CashFormAggregate
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("GetByStatus/{StatusId}/{user}")]
+        [Route("GetByStatus/{StatusId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetCashFormByStatus(int statusId, string user)
+        public async Task<IActionResult> GetCashFormByStatus(int statusId)
         {
-            var query = new GetCashFormPendingQuery { StatusId = statusId, Email = this.GetUserAuthorized(user) };
+            var query = new GetCashFormPendingQuery { StatusId = statusId, Email = this.GetUserAuthorized() };
             var result = await Mediator.Send(query);
 
             return Ok(result);
         }
 
-        [HttpPut("{id}/{user}")]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Put(int id, string user, UpdateCashFormCommand updateCashFormCommand)
+        public async Task<IActionResult> Put(int id, UpdateCashFormCommand updateCashFormCommand)
         {
             updateCashFormCommand.Id = id;
-            updateCashFormCommand.Email = this.GetUserAuthorized(user);
+            updateCashFormCommand.Email = this.GetUserAuthorized();
             await Mediator.Send(updateCashFormCommand);
 
             return Ok();
         }
 
         [HttpGet]
-        [Route("GetPrintDocument/{Id}/{user}")]
+        [Route("GetPrintDocument/{Id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetDocumentAttached(int id, string user)
+        public async Task<IActionResult> GetDocumentAttached(int id)
         {
-            var query = new GetDocumentByCashFormQuery { Id = id, Email = this.GetUserAuthorized(user) };
+            var query = new GetDocumentByCashFormQuery { Id = id, Email = this.GetUserAuthorized() };
             var result = await Mediator.Send(query);
 
             var cd = new System.Net.Mime.ContentDisposition
@@ -108,13 +107,13 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.CashFormAggregate
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("GetCalipsoDocument/{Id}/{user}")]
+        [Route("GetCalipsoDocument/{Id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetCalipsoDocument(int id, string user)
+        public async Task<IActionResult> GetCalipsoDocument(int id)
         {
-            var query = new GetCalipsoByCashFormQuery { Id = id, Email = this.GetUserAuthorized(user) };
+            var query = new GetCalipsoByCashFormQuery { Id = id, Email = this.GetUserAuthorized() };
             var result = await Mediator.Send(query);
 
             var cd = new System.Net.Mime.ContentDisposition
@@ -128,15 +127,15 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.CashFormAggregate
         }
 
         [HttpGet]
-        [Route("GetCashDashboard/{user}")]
+        [Route("GetCashDashboard")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetDashboard(string user)
+        public async Task<IActionResult> GetDashboard()
         {
             var query = new GetDashboardCashFormQuery
             {
-                Email = this.GetUserAuthorized(user)
+                Email = this.GetUserAuthorized()
             };
             var result = await Mediator.Send(query);
             return Ok(result);

@@ -17,14 +17,14 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.LunchAggregate
     {
 
         [HttpPost]
-        [Route("Create/{user}")]
+        [Route("Create")]
         [DisableRequestSizeLimit]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(string user, CreateLunchCommand createLunchCommand)
+        public async Task<IActionResult> Post(CreateLunchCommand createLunchCommand)
         {
-            createLunchCommand.Email = this.GetUserAuthorized(user);
+            createLunchCommand.Email = this.GetUserAuthorized();
             await Mediator.Send(createLunchCommand);
             return Ok();
         }
@@ -42,45 +42,44 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.LunchAggregate
         }
 
         [HttpGet]
-        [Route("GetLunchDashboard/{user}")]
+        [Route("GetLunchDashboard")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetDashboard(string user)
+        public async Task<IActionResult> GetDashboard()
         {
             var query = new GetDashboardLunchFormQuery
             {
-                Email = this.GetUserAuthorized(user)
+                Email = this.GetUserAuthorized()
             };
             var result = await Mediator.Send(query);
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetByUser/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(string user)
+        public async Task<IActionResult> Get()
         {
             var query = new GetByUserQuery
             {
-                Email = this.GetUserAuthorized(user)
+                Email = this.GetUserAuthorized()
             };
             var result = await Mediator.Send(query);
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetByLunchForm/{LunchFormId}/{user}")]
+        [Route("GetByLunchForm/{LunchFormId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByLunchForm(int lunchFormId, string user)
+        public async Task<IActionResult> GetByLunchForm(int lunchFormId)
         {
             var query = new GetByLunchFormQuery
             {
-                Email = this.GetUserAuthorized(user),
+                Email = this.GetUserAuthorized(),
                 LunchFormId = lunchFormId
             };
             var result = await Mediator.Send(query);

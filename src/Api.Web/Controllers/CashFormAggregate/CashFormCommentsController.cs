@@ -22,13 +22,13 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.CashFormAggregate
         }
 
         [HttpPost]
-        [Route("Create/{user}")]
+        [Route("Create")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(string user, CreateCashFormCommentCommand createCashFormCommentCommand)
+        public async Task<IActionResult> Post(CreateCashFormCommentCommand createCashFormCommentCommand)
         {
-            createCashFormCommentCommand.Email = this.GetUserAuthorized(user);
+            createCashFormCommentCommand.Email = this.GetUserAuthorized();
             await Mediator.Send(createCashFormCommentCommand);
 
             return Ok();

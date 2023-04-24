@@ -80,12 +80,12 @@ namespace Prome.Viaticos.Server.Application.ExpenseFormAggregate.ExpenseForm.Que
                     }
 
                 case ExpenseExternalAuthEnum.Pagar:
-                    {
-                        var list = await _unitOfWork
-                            .Repository<Domain.Entities.ExpenseFormAggregate.ExpenseForm>()
-                            .ListAsync(new ExpenseFormForManagingSpecification(usersToManage, ExpenseFormStatusEnum.Aprobado, false));
-                        return Map(list);
-                    }
+                {
+                    var list = await _unitOfWork
+                        .Repository<Domain.Entities.ExpenseFormAggregate.ExpenseForm>()
+                        .ListAsync(new ExpenseFormForManagingSpecification(usersToManage, ExpenseFormStatusEnum.Aprobado,false));
+                    return Map(list);
+                }
 
                 default:
                     {
@@ -123,9 +123,6 @@ namespace Prome.Viaticos.Server.Application.ExpenseFormAggregate.ExpenseForm.Que
                     break;
                 case ExpenseExternalAuthEnum.Pares:
                     firstLevelAdmin = currentUser.ParesLevelPosition;
-                    break;
-                case ExpenseExternalAuthEnum.Revisar:
-                    firstLevelAdmin = currentUser.RevisaPosition;
                     break;
                 default:
                     firstLevelAdmin = currentUser.ParesLevelPosition;

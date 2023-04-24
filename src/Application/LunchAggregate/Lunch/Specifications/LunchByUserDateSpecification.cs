@@ -10,7 +10,6 @@ namespace Prome.Viaticos.Server.Application.LunchAggregate.Lunch.Specifications
                         && x.LunchDate >= date && x.LunchDate <= date
                         && x.Id != id
                         && x.IsDeleted != true)
-                        
         {
 
         }

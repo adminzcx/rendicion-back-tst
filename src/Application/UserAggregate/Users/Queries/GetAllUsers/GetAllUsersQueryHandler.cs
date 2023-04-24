@@ -29,5 +29,4 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Queries.GetAllUs
             return Map(list);
         }
     }
-
 }

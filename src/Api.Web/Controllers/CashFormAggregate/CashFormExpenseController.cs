@@ -12,25 +12,24 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.CashFormAggregate
     public class CashFormExpenseController : ApiController
     {
 
-        [HttpPost] 
-        [Route("{user}")]
+        [HttpPost]
         [DisableRequestSizeLimit]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(string user, CreateCashFormExpenseCommand createCashFormExpenseCommand)
+        public async Task<IActionResult> Post(CreateCashFormExpenseCommand createCashFormExpenseCommand)
         {
-            createCashFormExpenseCommand.Email = this.GetUserAuthorized(user);
+            createCashFormExpenseCommand.Email = this.GetUserAuthorized();
             await Mediator.Send(createCashFormExpenseCommand);
             return Ok();
         }
-        [Route("GetByCashFormId/{cashFormId}/{user}")]
+        [Route("GetByCashFormId/{cashFormId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(int cashFormId, string user)
+        public async Task<IActionResult> Get(int cashFormId)
         {
-            var query = new GetCashFormExpenseByCashFormIdQuery { CashFormId = cashFormId, Email = this.GetUserAuthorized(user) };
+            var query = new GetCashFormExpenseByCashFormIdQuery { CashFormId = cashFormId, Email = this.GetUserAuthorized() };
             var result = await Mediator.Send(query);
 
             return Ok(result);

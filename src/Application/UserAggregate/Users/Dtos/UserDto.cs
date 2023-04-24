@@ -32,19 +32,5 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Dtos
         public string Name => this.FirstName + " " + this.LastName;
 
         public string EmployeeRecord { get; set; }
-
-        public virtual Category Category { get; set; }
-
-        public virtual Branch BranchFrom { get; set; }
-
-        public virtual Position Position { get; set; }
-
-        public string Cuit { get; set; }
-
-        public Int64? TarjetaYPF { get; set; }
-
-        public bool? YPFRuta { get; set; }
-
-        public bool IsAdministrator { get; set; }
     }
 }

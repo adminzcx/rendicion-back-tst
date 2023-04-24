@@ -5,7 +5,6 @@
     <AssemblyName>Prome.Viaticos.Server.Api.Users</AssemblyName>
     <RootNamespace>Prome.Viaticos.Server.Api.Users</RootNamespace>
     <Version>1.0.0.0</Version>
-    <UserSecretsId>a9420c43-109f-430c-9e07-f050d7538910</UserSecretsId>
   </PropertyGroup>
  
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Api.Users' ">
@@ -23,7 +22,5 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.3.0" />
   </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="https://json.schemastore.org/csscomb" /></VisualStudio></ProjectExtensions>
 
 </Project>

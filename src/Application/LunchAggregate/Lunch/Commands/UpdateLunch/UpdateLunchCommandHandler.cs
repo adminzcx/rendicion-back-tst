@@ -43,12 +43,12 @@ namespace Prome.Viaticos.Server.Application.LunchAggregate.Lunch.Commands.Update
 
             #region LunchStopValidation
             //Expense Daily
-            var total = await this.GetTotalLunchesByDay((long)request.UserId, entity.LunchDate, request.Id) + entity.Amount;
+            var total = await this.GetTotalLunchesByDay((long)request.UserId, entity.LunchDate) + entity.Amount;
             var tope = await this.GetTope(entity.LunchDate, false);
             Guard.Against.LunchFormStopDailyGuardValid(total, tope);
 
             //Expense Monthly
-            total = await this.GetTotalLunchesByMonth((long)request.UserId, entity.LunchDate, request.Id) + entity.Amount;
+            total = await this.GetTotalLunchesByMonth((long)request.UserId, entity.LunchDate) + entity.Amount;
             tope = await this.GetTope(entity.LunchDate, true);
             Guard.Against.LunchFormStopMonthlyGuardValid(total, tope);
             #endregion
@@ -81,19 +81,19 @@ namespace Prome.Viaticos.Server.Application.LunchAggregate.Lunch.Commands.Update
             return lunchStop?.CapAmount;
         }
 
-        private async Task<decimal?> GetTotalLunchesByDay(long userId, DateTime date, long lunchId)
+        private async Task<decimal?> GetTotalLunchesByDay(long userId, DateTime date)
         {
             var list = await _unitOfWork
                 .Repository<Domain.Entities.LunchAggregate.Lunch>()
-                .ListAsync(new LunchByUserDateSpecification(userId, lunchId, date));
+                .ListAsync(new LunchByUserDateSpecification(userId, 0, date));
             return list.Sum(x => x.Amount);
         }
 
-        private async Task<decimal?> GetTotalLunchesByMonth(long userId, DateTime date, long lunchId)
+        private async Task<decimal?> GetTotalLunchesByMonth(long userId, DateTime date)
         {
             var list = await _unitOfWork
                 .Repository<Domain.Entities.LunchAggregate.Lunch>()
-                .ListAsync(new LunchMonthlyByUserDateSpecification(userId,lunchId, date));
+                .ListAsync(new LunchMonthlyByUserDateSpecification(userId, 0, date));
             return list.Sum(x => x.Amount);
         }
 

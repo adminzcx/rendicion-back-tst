@@ -11,9 +11,5 @@ namespace Prome.Viaticos.Server.Application.ExpenseAggregate.Branch.Dtos
         public string Name { get; set; }
 
         public int SubZoneId { get; set; }
-        
-        public string Latitud { get; set; }
-
-        public string Longitud { get; set; }
     }
 }
