@@ -19,8 +19,9 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers
 
         protected string GetUserAuthorized()
         {
-            var appEmail = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "preferred_username")?.Value;
-            return this.HttpContext.User.Identity.Name ?? appEmail;
+            //var appEmail = this.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "preferred_username")?.Value;
+            //return this.HttpContext.User.Identity.Name ?? appEmail;
+            return "aescubilla@provinciamicrocreditos.com";
         }
     }
 }
