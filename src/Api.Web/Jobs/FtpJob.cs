@@ -27,7 +27,7 @@ namespace Prome.Viaticos.Server.Api.Web.Jobs
         public async Task Execute(IJobExecutionContext context)
         {
 
-            await this.DownloadFilesAsync();
+            //await this.DownloadFilesAsync();
 
 
         }

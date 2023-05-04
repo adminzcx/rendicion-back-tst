@@ -10,26 +10,26 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.LunchAggregate
     public class LunchReportController : ApiController
     {
         [HttpGet]
-        [Route("GetByStatus/{StatusId}")]
+        [Route("GetByStatus/{StatusId}/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByLunchForm(int statusId)
+        public async Task<IActionResult> GetByLunchForm(int statusId, string user)
         {
-            var query = new GetAllLunchReportByStatusQuery { StatusId = statusId, Email = this.GetUserAuthorized() };
+            var query = new GetAllLunchReportByStatusQuery { StatusId = statusId, Email = this.GetUserAuthorized(user) };
             var result = await Mediator.Send(query);
 
             return Ok(result);
         }
 
         [HttpGet]
-        [Route("GetPrintDocument/{Id}")]
+        [Route("GetPrintDocument/{Id}/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetDocumentAttached(int id)
+        public async Task<IActionResult> GetDocumentAttached(int id, string user)
         {
-            var query = new GetDocumentByLunchFormQuery { Id = id, Email = this.GetUserAuthorized() };
+            var query = new GetDocumentByLunchFormQuery { Id = id, Email = this.GetUserAuthorized(user) };
             var result = await Mediator.Send(query);
 
             System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition

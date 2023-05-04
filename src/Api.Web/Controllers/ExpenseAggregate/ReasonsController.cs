@@ -25,14 +25,15 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseAggregate
         }
 
         [HttpGet]
+        [Route("GetByPosition/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByPosition()
+        public async Task<IActionResult> GetByPosition(string user)
         {
             var query = new GetAllReasonsByPositionQuery
             {
-                Email = this.GetUserAuthorized()
+                Email = this.GetUserAuthorized(user)
             };
             var result = await Mediator.Send(query);
 

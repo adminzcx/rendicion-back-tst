@@ -24,15 +24,15 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseAggregate
         }
 
         [HttpGet]
-        [Route("GetByReason/{ReasonId}")]
+        [Route("GetByReason/{ReasonId}/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByReason(int reasonId)
+        public async Task<IActionResult> GetByReason(int reasonId, string user)
         {
             var query = new GetConceptsPositionByReasonQuery
             {
-                Email = this.GetUserAuthorized(),
+                Email = this.GetUserAuthorized(user),
                 ReasonId = reasonId
             };
 

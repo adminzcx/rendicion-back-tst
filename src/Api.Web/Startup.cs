@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Prome.Viaticos.Server.Api.Web.Jobs;
@@ -14,7 +15,9 @@ using Quartz;
 using Quartz.Spi;
 using System;
 using System.Net;
-
+using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
+//using Google.Apis.Auth.AspNetCore3;
 
 namespace Prome.Viaticos.Server.Api.Web
 {
@@ -32,7 +35,23 @@ namespace Prome.Viaticos.Server.Api.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("OAuth")
+                .AddJwtBearer("OAuth", config =>
+                {
+                    var secretBytes = Encoding.UTF8.GetBytes(Configuration["AAD:Secrets"]);
+                    var key = new SymmetricSecurityKey(secretBytes);
 
+                    config.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        IssuerSigningKey = key
+                    };
+                });
+
+
+            //services.AddControllersWithViews();
+            //services.AddSwaggerDocument();
 
             services.AddScoped<IJobFactory, FtpQuartzJobFactory>();
             services.AddTransient<FtpJob>();
@@ -44,23 +63,54 @@ namespace Prome.Viaticos.Server.Api.Web
 
             services.AddCors();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                           .AddJwtBearer(opt =>
-                           {
-                               opt.Audience = Configuration["AAD:Audience"];
-                               opt.Authority = $"{Configuration["AAD:Instance"]}{Configuration["AAD:TenantId"]}";
+            //services.AddAuthentication("OAuth")
+            //    .AddJwtBearer("OAuth", config =>
+            //    {
+            //        var secretBytes = Encoding.UTF8.GetBytes(Configuration["AAD:Secrets"]);
+            //        var key = new SymmetricSecurityKey(secretBytes);
 
-                               opt.TokenValidationParameters = new TokenValidationParameters
-                               {
-                                   ValidIssuer = Configuration["AAD:Issuer"],
-                                   ValidAudience = Configuration["AAD:Audience"],
-                                   ValidateIssuer = true,
-                                   ValidateAudience = true,
-                                   ValidateLifetime = true,
-                                   ValidateIssuerSigningKey = true,
-                                   RequireExpirationTime = false
-                               };
-                           });
+            //        config.TokenValidationParameters = new TokenValidationParameters()
+            //        {
+            //            ValidIssuer = Configuration["AAD:Issuer"],
+            //            ValidAudience = Configuration["AAD:Audience"],
+            //            IssuerSigningKey = key
+            //        };
+            //    });
+
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            //    options.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+            //})
+            //    .AddCookie()
+            //    .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+            //    {
+            //        options.ClientId = Configuration["Authentication:Google:ClientId"];
+            //        options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            //    });
+
+            //services
+            //    .AddAuthentication(o =>
+            //    {
+            //        // This forces challenge results to be handled by Google OpenID Handler, so there's no
+            //        // need to add an AccountController that emits challenges for Login.
+            //        o.DefaultChallengeScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+            //        // This forces forbid results to be handled by Google OpenID Handler, which checks if
+            //        // extra scopes are required and does automatic incremental auth.
+            //        o.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+            //        // Default scheme that will handle everything else.
+            //        // Once a user is authenticated, the OAuth2 token info is stored in cookies.
+            //        o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            //    })
+            //    .AddCookie()
+            //    .AddGoogleOpenIdConnect(options =>
+            //    {
+            //        options.ClientId = Configuration["Authentication:Google:ClientId"];
+            //        options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            //    });
+
+            services.AddControllersWithViews();
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerDocument();
@@ -97,8 +147,8 @@ namespace Prome.Viaticos.Server.Api.Web
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

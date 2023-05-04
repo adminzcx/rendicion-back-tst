@@ -26,14 +26,15 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseFormAggregate
     {
 
         [HttpGet]
+        [Route("GetAll/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string user)
         {
             var query = new GetAllExpenseFormQuery
             {
-                Email = this.GetUserAuthorized()
+                Email = this.GetUserAuthorized(user)
             };
             var result = await Mediator.Send(query);
 
@@ -55,13 +56,13 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseFormAggregate
         }
 
         [HttpGet]
-        [Route("GetByStatus/{StatusId}")]
+        [Route("GetByStatus/{StatusId}/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByExpenseForm(int statusId)
+        public async Task<IActionResult> GetByExpenseForm(int statusId, string user)
         {
-            var query = new GetAllExpenseFormByStatusQuery { StatusId = statusId, Email = this.GetUserAuthorized() };
+            var query = new GetAllExpenseFormByStatusQuery { StatusId = statusId, Email = this.GetUserAuthorized(user) };
             var result = await Mediator.Send(query);
 
             return Ok(result);
@@ -69,16 +70,16 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseFormAggregate
 
 
         [HttpGet]
-        [Route("GetPendingToManage/{ExpenseExternalAuth}")]
+        [Route("GetPendingToManage/{ExpenseExternalAuth}/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetPendingToManage(int expenseExternalAuth)
+        public async Task<IActionResult> GetPendingToManage(int expenseExternalAuth, string user)
         {
             var query = new GetAllExpenseFormToManagingQuery
             {
                 ExpenseExternalAuth = expenseExternalAuth,
-                Email = this.GetUserAuthorized()
+                Email = this.GetUserAuthorized(user)
             };
             var result = await Mediator.Send(query);
 
@@ -87,40 +88,41 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseFormAggregate
 
 
         [HttpPost]
+        [Route("{user}")]
         [DisableRequestSizeLimit]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(CreateExpenseFormCommand createExpenseFormCommand)
+        public async Task<IActionResult> Post(string user, CreateExpenseFormCommand createExpenseFormCommand)
         {
-            createExpenseFormCommand.Email = this.GetUserAuthorized();
+            createExpenseFormCommand.Email = this.GetUserAuthorized(user);
             await Mediator.Send(createExpenseFormCommand);
 
             return Ok();
         }
 
-        [HttpPatch("{expenseFormId}")]
+        [HttpPatch("{expenseFormId}/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Patch(int expenseFormId, PathExpenseFormCommand pathExpenseFormCommand)
+        public async Task<IActionResult> Patch(int expenseFormId, string user, PathExpenseFormCommand pathExpenseFormCommand)
         {
             pathExpenseFormCommand.Id = expenseFormId;
-            pathExpenseFormCommand.Email = this.GetUserAuthorized();
+            pathExpenseFormCommand.Email = this.GetUserAuthorized(user);
             await Mediator.Send(pathExpenseFormCommand);
 
             return Ok();
         }
 
         [HttpPatch]
-        [Route("Status/{expenseFormId}")]
+        [Route("Status/{expenseFormId}/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PatchStatus(int expenseFormId, PathExpenseFormStatusCommand pathExpenseFormStatusCommand)
+        public async Task<IActionResult> PatchStatus(int expenseFormId, string user, PathExpenseFormStatusCommand pathExpenseFormStatusCommand)
         {
             pathExpenseFormStatusCommand.Id = expenseFormId;
-            pathExpenseFormStatusCommand.Email = this.GetUserAuthorized();
+            pathExpenseFormStatusCommand.Email = this.GetUserAuthorized(user);
             await Mediator.Send(pathExpenseFormStatusCommand);
 
             return Ok();
@@ -138,28 +140,28 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseFormAggregate
             return Ok();
         }
 
-        [HttpPatch("Amount/{expenseFormId}")]
+        [HttpPatch("Amount/{expenseFormId}/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PatchAmount(int expenseFormId, PathExpenseFormAmountCommand pathExpenseFormAmountCommand)
+        public async Task<IActionResult> PatchAmount(int expenseFormId, string user, PathExpenseFormAmountCommand pathExpenseFormAmountCommand)
         {
             pathExpenseFormAmountCommand.Id = expenseFormId;
-            pathExpenseFormAmountCommand.Email = this.GetUserAuthorized();
+            pathExpenseFormAmountCommand.Email = this.GetUserAuthorized(user);
             await Mediator.Send(pathExpenseFormAmountCommand);
 
             return Ok();
         }
 
         [HttpPatch]
-        [Route("Advices/{cashFormId}")]
+        [Route("Advices/{cashFormId}/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PatchAdvices(int cashFormId, PathExpenseFormAdvicesCommand pathExpenseFormAdvicesCommand)
+        public async Task<IActionResult> PatchAdvices(int cashFormId, string user, PathExpenseFormAdvicesCommand pathExpenseFormAdvicesCommand)
         {
             pathExpenseFormAdvicesCommand.Id = cashFormId;
-            pathExpenseFormAdvicesCommand.Email = this.GetUserAuthorized();
+            pathExpenseFormAdvicesCommand.Email = this.GetUserAuthorized(user);
             await Mediator.Send(pathExpenseFormAdvicesCommand);
 
             return Ok();
@@ -186,15 +188,15 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseFormAggregate
         }
 
         [HttpGet]
-        [Route("GetDashboard")]
+        [Route("GetDashboard/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetDashboard()
+        public async Task<IActionResult> GetDashboard(string user)
         {
             var query = new GetDashboardExpenseFormQuery
             {
-                Email = this.GetUserAuthorized()
+                Email = this.GetUserAuthorized(user)
             };
             var result = await Mediator.Send(query);
 

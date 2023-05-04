@@ -27,9 +27,12 @@ namespace Prome.Viaticos.Server.Application.CashFormAggregate.CashFormAmount.Que
         {
             var currentUser = await this.GetCurrentUserAsync(request.Email);
 
+            //var list = await _unitOfWork
+            //    .Repository<Domain.Entities.CashFormAggregate.CashFormAmount>()
+            //    .SingleOrDefaultAsync(new CashFormAmountByBranchIdSpecification(currentUser.Branch.Id));
             var list = await _unitOfWork
                 .Repository<Domain.Entities.CashFormAggregate.CashFormAmount>()
-                .SingleOrDefaultAsync(new CashFormAmountByBranchIdSpecification(currentUser.Branch.Id));
+                .SingleOrDefaultAsync(new CashFormAmountByBranchIdSpecification(currentUser.BranchFrom.Id));
 
             return Map(list);
         }

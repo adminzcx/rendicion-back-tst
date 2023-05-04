@@ -26,14 +26,14 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseFormAggregate
         }
 
         [HttpPost]
-        [Route("Create")]
+        [Route("Create/{user}")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(CreateExpenseFormCommentCommand createExpenseFormCommentCommand)
+        public async Task<IActionResult> Post(string user, CreateExpenseFormCommentCommand createExpenseFormCommentCommand)
         {
-            createExpenseFormCommentCommand.Email = this.GetUserAuthorized();
+            createExpenseFormCommentCommand.Email = this.GetUserAuthorized(user);
             await Mediator.Send(createExpenseFormCommentCommand);
 
             return Ok();

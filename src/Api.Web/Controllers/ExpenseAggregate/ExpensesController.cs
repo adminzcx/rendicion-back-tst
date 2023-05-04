@@ -19,12 +19,13 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseAggregate
     {
 
         [HttpGet]
+        [Route("ObtenerDatos/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(string user)
         {
-            var query = new GetAllPendingExpensesQuery { Email = this.GetUserAuthorized() };
+            var query = new GetAllPendingExpensesQuery { Email = this.GetUserAuthorized(user) };
             var result = await Mediator.Send(query);
 
             return Ok(result);
@@ -44,14 +45,14 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseAggregate
 
 
         [HttpPost]
-        [Route("Create")]
+        [Route("Create/{user}")]
         [DisableRequestSizeLimit]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post(CreateExpenseCommand createExpenseCommand)
+        public async Task<IActionResult> Post(string user, CreateExpenseCommand createExpenseCommand)
         {
-            createExpenseCommand.Email = this.GetUserAuthorized();
+            createExpenseCommand.Email = this.GetUserAuthorized(user);
             await Mediator.Send(createExpenseCommand);
 
             return Ok();
@@ -87,14 +88,14 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.ExpenseAggregate
             return Ok();
         }
 
-        [HttpPatch("{expenseId}")]
+        [HttpPatch("{expenseId}/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Patch(int expenseId, PatchExpenseCommand patchExpenseCommand)
+        public async Task<IActionResult> Patch(int expenseId, string user, PatchExpenseCommand patchExpenseCommand)
         {
             patchExpenseCommand.Id = expenseId;
-            patchExpenseCommand.Email = this.GetUserAuthorized();
+            patchExpenseCommand.Email = this.GetUserAuthorized(user);
             await Mediator.Send(patchExpenseCommand);
 
             return Ok();

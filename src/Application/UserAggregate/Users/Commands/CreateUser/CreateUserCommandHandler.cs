@@ -43,7 +43,9 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Commands.CreateU
                 request.IsAdministrator,
                 branchFrom,
                 position,
-                request.Cuit);
+                request.Cuit,
+                request.TarjetaYPF,
+                request.YPFRuta);
 
             if (!string.IsNullOrEmpty(request.Category))
             {

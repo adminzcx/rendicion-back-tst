@@ -6,6 +6,7 @@ using Prome.Viaticos.Server.Application.CashFormAggregate.CashFormAmount.Command
 using Prome.Viaticos.Server.Application.CashFormAggregate.CashFormAmount.Queries.GetAllCashFormAmount;
 using Prome.Viaticos.Server.Application.CashFormAggregate.CashFormAmount.Queries.GetCashFormAmount;
 using Prome.Viaticos.Server.Application.CashFormAggregate.CashFormAmount.Queries.GetCashFormAmountByBranch;
+using System.Configuration;
 using System.Threading.Tasks;
 
 namespace Prome.Viaticos.Server.Api.Web.Controllers.CashFormAggregate
@@ -77,15 +78,15 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.CashFormAggregate
             return Ok();
         }
         [HttpGet]
-        [Route("GetByBranch")]
+        [Route("GetByBranch/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByBranch()
+        public async Task<IActionResult> GetByBranch(string user)
         {
             var query = new GetCashFormAmountByBranchQuery
             {
-                Email = this.GetUserAuthorized()
+                Email = this.GetUserAuthorized(user)
             };
             var result = await Mediator.Send(query);
 

@@ -47,7 +47,8 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
         {
             return string.IsNullOrWhiteSpace(Code)
                                 ? null
-                                : new Collection<PositionTypeEnum> { PositionTypeEnum.GCM, PositionTypeEnum.ALL };
+                                : new Collection<PositionTypeEnum> { PositionTypeEnum.EC, PositionTypeEnum.ECS, PositionTypeEnum.JZ, PositionTypeEnum.SGZ,
+                                    PositionTypeEnum.ACM, PositionTypeEnum.JCM, PositionTypeEnum.GCM, PositionTypeEnum.ALL };
         }
 
         public ICollection<PositionTypeEnum> GetFirstLevelPosition()
@@ -118,6 +119,13 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
             }
 
             return result;
+        }
+
+        public ICollection<PositionTypeEnum> GetRevisaPosition()
+        {
+            return string.IsNullOrWhiteSpace(Code)
+                                ? null
+                                : new Collection<PositionTypeEnum> { PositionTypeEnum.EC, PositionTypeEnum.ECS, PositionTypeEnum.ACM, PositionTypeEnum.JCM, PositionTypeEnum.GCM, PositionTypeEnum.ALL };
         }
     }
 }

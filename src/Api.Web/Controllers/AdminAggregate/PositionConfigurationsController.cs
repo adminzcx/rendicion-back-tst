@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Prome.Viaticos.Server.Application.AdminAggregate.PositionConfigurations.Commands.CreatePositionConfiguration;
 using Prome.Viaticos.Server.Application.AdminAggregate.PositionConfigurations.Queries.GetPositionConfigurationsByConcept;
+using Prome.Viaticos.Server.Application.UserAggregate.Positions.Queries.GetAllPositions;
 using System.Threading.Tasks;
 
 namespace Prome.Viaticos.Server.Api.Web.Controllers.AdminAggregate
@@ -36,6 +37,17 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.AdminAggregate
             return Ok();
         }
 
+        [HttpGet]
+        [Route("GetAllPositions")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetAllPositions()
+        {
+            var query = new GetAllPositionsQuery();
+            var result = await Mediator.Send(query);
 
+            return Ok(result);
+        }
     }
 }

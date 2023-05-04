@@ -22,9 +22,11 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Dtos
 
         public string PositionName { get; set; }
 
-        public BranchDto Branch { get; set; }
+        public BranchDto BranchFrom { get; set; }
 
         public IEnumerable<string> Roles { get; set; }
+
+        public bool? YPFRuta { get; set; }
 
         public void Mapping(Profile profile)
         {

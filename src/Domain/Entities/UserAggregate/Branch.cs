@@ -8,12 +8,16 @@ namespace Prome.Viaticos.Server.Domain.Entities.UserAggregate
             : base(code, name)
         { }
 
-        public Branch(string code, string name, SubZone subZone)
+        public Branch(string code, string name, string latitud, string longitud, SubZone subZone)
             : this(code, name)
         {
+            Latitud = latitud;
+            Longitud = longitud;
             SubZone = subZone;
         }
 
+        public virtual string Latitud { get; private set; }
+        public virtual string Longitud { get; private set; }
         public virtual SubZone SubZone { get; private set; }
     }
 }

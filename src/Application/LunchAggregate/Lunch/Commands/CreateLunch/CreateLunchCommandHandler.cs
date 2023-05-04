@@ -62,6 +62,11 @@ namespace Prome.Viaticos.Server.Application.LunchAggregate.Lunch.Commands.Create
             entity.CreatedDate = _dateTimeService.Now;
             entity.LunchForm = await this.GetLunchFormAsync(request.LunchFormId);
             entity.LunchDate = request.LunchDate;
+            //entity.Amount = request.Amount;
+            //entity.Collaborator = "";
+            //entity.EmployeeRecord = "";
+            //entity.Device = request.Device;
+            //entity.IsDeleted = false;
 
 
             #region Advices

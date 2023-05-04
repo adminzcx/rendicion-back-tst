@@ -64,7 +64,7 @@ namespace Prome.Viaticos.Server.Infraestructure.Files
         {
             return path switch
             {
-                FolderPathEnum.Expense => _configuration["MySettings:AttachmentsPath"],
+                FolderPathEnum.Expense => _configuration["MySettings:LocalAttachmentsPath"],
                 FolderPathEnum.Map => _configuration["MySettings:GoogleMapPath"],
                 _ => string.Empty
             };

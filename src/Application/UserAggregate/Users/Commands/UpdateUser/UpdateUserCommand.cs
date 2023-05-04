@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using System;
 
 namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Commands.UpdateUser
 {
@@ -6,6 +7,8 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Commands.UpdateU
 
     public class UpdateUserCommand : IRequest
     {
+        public int Id { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -25,5 +28,9 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Commands.UpdateU
         public string Position { get; set; }
 
         public string Cuit { get; set; }
+
+        public Int64? TarjetaYPF { get; set; }
+
+        public bool? YPFRuta { get; set; }
     }
 }

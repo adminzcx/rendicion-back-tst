@@ -22,13 +22,13 @@ namespace Prome.Viaticos.Server.Api.Web.Controllers.CashFormAggregate
         }
 
         [HttpGet]
-        [Route("GetByStatus/{StatusId}")]
+        [Route("GetByStatus/{StatusId}/{user}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetCashFormByStatus(int statusId)
+        public async Task<IActionResult> GetCashFormByStatus(int statusId, string user)
         {
-            var query = new GetAllCashFormReportByStatusQuery { StatusId = statusId, Email = this.GetUserAuthorized() };
+            var query = new GetAllCashFormReportByStatusQuery { StatusId = statusId, Email = this.GetUserAuthorized(user) };
             var result = await Mediator.Send(query);
 
             return Ok(result);

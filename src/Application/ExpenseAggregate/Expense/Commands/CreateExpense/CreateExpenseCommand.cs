@@ -62,6 +62,8 @@ namespace Prome.Viaticos.Server.Application.ExpenseAggregate.Expense.Commands.Cr
 
         public int CampaignId { get; set; }
 
+        public bool YPFRuta { get; set; }
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<CreateExpenseCommand, Domain.Entities.ExpenseAggregate.Expense>()

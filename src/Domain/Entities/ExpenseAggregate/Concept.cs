@@ -1,4 +1,5 @@
-﻿using Prome.Viaticos.Server.Domain._Common;
+﻿using Newtonsoft.Json;
+using Prome.Viaticos.Server.Domain._Common;
 using Prome.Viaticos.Server.Domain.Enums;
 
 namespace Prome.Viaticos.Server.Domain.Entities.ExpenseAggregate
@@ -10,6 +11,8 @@ namespace Prome.Viaticos.Server.Domain.Entities.ExpenseAggregate
         { }
 
         public int Form { get; set; }
+        
+        [JsonIgnore]
         public virtual Reason Reason { get; private set; }
 
         public bool IsExpenseParquingLot => this.IsParquingLotType();

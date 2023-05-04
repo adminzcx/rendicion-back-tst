@@ -2151,6 +2151,124 @@ namespace Prome.Viaticos.Server.Infraestructure.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("ZoneId");
                 });
+
+            modelBuilder.Entity("Prome.Viaticos.Server.Domain.Entities.YPFRutaAggregate.YPFRuta", b =>
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint")
+                    .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                b.Property<DateTime?>("Fecha")
+                    .HasColumnType("datetime");
+
+                b.Property<string>("Contrato")
+                    .HasColumnType("varchar(50)")
+                    .HasMaxLength(50);
+
+                b.Property<string>("Subcuenta")
+                    .HasColumnType("varchar(50)")
+                    .HasMaxLength(50);
+
+                b.Property<string>("Centro_Costo")
+                    .HasColumnType("varchar(50)")
+                    .HasMaxLength(50);
+
+                b.Property<string>("Establecimiento")
+                    .HasColumnType("varchar(100)")
+                    .HasMaxLength(100);
+
+                b.Property<string>("Domicilio")
+                    .HasColumnType("varchar(100)")
+                    .HasMaxLength(100);
+
+                b.Property<string>("Localidad")
+                    .HasColumnType("varchar(100)")
+                    .HasMaxLength(100);
+
+                b.Property<string>("Provincia")
+                    .HasColumnType("varchar(50)")
+                    .HasMaxLength(50);
+
+                b.Property<string>("Tarjeta")
+                    .HasColumnType("varchar(17)")
+                    .HasMaxLength(17);
+
+                b.Property<string>("Conductor")
+                    .HasColumnType("varchar(50)")
+                    .HasMaxLength(50);
+
+                b.Property<string>("Tipo_Identificacion_Conductor")
+                    .HasColumnType("varchar(5)")
+                    .HasMaxLength(5);
+
+                b.Property<string>("Nro_Identificacion_Conductor")
+                    .HasColumnType("varchar(8)")
+                    .HasMaxLength(8);
+
+                b.Property<string>("Tipo_Identificacion_Tarjeta")
+                    .HasColumnType("varchar(5)")
+                    .HasMaxLength(5);
+
+                b.Property<string>("Identificacion_Tarjeta")
+                    .HasColumnType("varchar(8)")
+                    .HasMaxLength(8);
+
+                b.Property<string>("Odometro")
+                    .HasColumnType("varchar(10)")
+                    .HasMaxLength(10);
+
+                b.Property<string>("Remito")
+                    .HasColumnType("varchar(14)")
+                    .HasMaxLength(14);
+
+                b.Property<string>("Producto")
+                    .HasColumnType("varchar(50)")
+                    .HasMaxLength(50);
+
+                b.Property<decimal?>("Litros_Unidades")
+                        .HasColumnType("decimal(4,2)");
+
+                b.Property<decimal?>("Precio_PVP_Establecimiento")
+                        .HasColumnType("decimal(4,2)");
+
+                b.Property<decimal?>("Imp_Total_PVP_Establecimiento")
+                        .HasColumnType("decimal(6,2)");
+
+                b.Property<decimal?>("Precio_YER")
+                        .HasColumnType("decimal(4,2)");
+
+                b.Property<decimal?>("Imp_Total_YER")
+                        .HasColumnType("decimal(6,2)");
+
+                b.Property<string>("Divisa")
+                    .HasColumnType("varchar(10)")
+                    .HasMaxLength(10);
+
+                b.Property<string>("Factura")
+                    .HasColumnType("varchar(14)")
+                    .HasMaxLength(14);
+
+                b.Property<decimal?>("IVA")
+                        .HasColumnType("decimal(4,2)");
+
+                b.Property<decimal?>("Imp_CO2")
+                        .HasColumnType("decimal(3,2)");
+
+                b.Property<decimal?>("Tasa_Vial")
+                        .HasColumnType("decimal(3,2)");
+
+                b.Property<decimal?>("Imp_Comb_Liq")
+                        .HasColumnType("decimal(4,2)");
+
+                b.Property<string>("Extracto")
+                    .HasColumnType("varchar(30)")
+                    .HasMaxLength(30);
+
+                b.HasKey("Id");
+
+                b.ToTable("Datos_YPF");
+            });
 #pragma warning restore 612, 618
         }
     }
