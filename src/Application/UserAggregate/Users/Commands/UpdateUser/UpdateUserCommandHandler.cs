@@ -45,7 +45,7 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Commands.UpdateU
                 entity.Category = category;
             }
 
-            var businessUnitEntityCode = request.BusinessUnit;
+            var businessUnitEntityCode = request.BranchFrom;
 
             if (position.IsBranchRequired) entity.Branch = await FindByCode<Branch>(businessUnitEntityCode);
             else if (position.IsZoneRequired) entity.Zone = await FindByCode<Zone>(businessUnitEntityCode);
