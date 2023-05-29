@@ -47,11 +47,11 @@ namespace Prome.Viaticos.Server.Application.UserAggregate.Users.Commands.UpdateU
 
             var businessUnitEntityCode = request.BranchFrom;
 
-            if (position.IsBranchRequired) entity.Branch = await FindByCode<Branch>(businessUnitEntityCode);
-            else if (position.IsZoneRequired) entity.Zone = await FindByCode<Zone>(businessUnitEntityCode);
-            else if (position.IsSubZoneRequired) entity.SubZone = await FindByCode<SubZone>(businessUnitEntityCode);
-            else if (position.IsSectorRequired) entity.Sector = await FindByCode<Sector>(businessUnitEntityCode);
-            else if (position.IsManagementRequired) entity.Management = await FindByCode<Management>(businessUnitEntityCode);
+            //if (position.IsBranchRequired) entity.Branch = await FindByCode<Branch>(businessUnitEntityCode);
+            //else if (position.IsZoneRequired) entity.Zone = await FindByCode<Zone>(businessUnitEntityCode);
+            //else if (position.IsSubZoneRequired) entity.SubZone = await FindByCode<SubZone>(businessUnitEntityCode);
+            //else if (position.IsSectorRequired) entity.Sector = await FindByCode<Sector>(businessUnitEntityCode);
+            //else if (position.IsManagementRequired) entity.Management = await FindByCode<Management>(businessUnitEntityCode);
 
             _unitOfWork.Repository<User>().Update(entity);
             await _unitOfWork.CommitAsync();
